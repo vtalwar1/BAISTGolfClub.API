@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BAISTGolfClub.API", "BAISTGolfClub.API\BAISTGolfClub.API.csproj", "{07DFC071-A5C0-44E4-8FF7-FC7E4270C832}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BAISTGolfClub.Data", "BAISTGolfClub.Data\BAISTGolfClub.Data.csproj", "{32EA3CE4-CA72-4A7E-8E71-B5D8C2D9A917}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{07DFC071-A5C0-44E4-8FF7-FC7E4270C832}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07DFC071-A5C0-44E4-8FF7-FC7E4270C832}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07DFC071-A5C0-44E4-8FF7-FC7E4270C832}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07DFC071-A5C0-44E4-8FF7-FC7E4270C832}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32EA3CE4-CA72-4A7E-8E71-B5D8C2D9A917}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32EA3CE4-CA72-4A7E-8E71-B5D8C2D9A917}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32EA3CE4-CA72-4A7E-8E71-B5D8C2D9A917}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32EA3CE4-CA72-4A7E-8E71-B5D8C2D9A917}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {75A95C81-1440-45D6-A54E-B0BEAA58B9B7}
+	EndGlobalSection
+EndGlobal
