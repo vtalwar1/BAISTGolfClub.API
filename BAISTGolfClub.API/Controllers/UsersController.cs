@@ -51,7 +51,7 @@ namespace BAISTGolfClub.API.Controllers
         public async Task<ActionResult<User>> GetUserByEmail(string email)
         {
             try
-            {
+            {//
                 var user = await this._userService.GetUserByEmail(email);
                 if (user == null)
                 {
