@@ -22,8 +22,8 @@ namespace BAISTGolfClub.API.Controllers
         // GET: Users1
         public async Task<IActionResult> Index()
         {
-            var bAISTGolfClubContext = _context.User.Include(u => u.Membership);
-            return View(await bAISTGolfClubContext.ToListAsync());
+            //var bAISTGolfClubContext = _context.User.Include(u => u.Membership);
+            return null;//View(await bAISTGolfClubContext.ToListAsync());
         }
 
         // GET: Users1/Details/5
@@ -35,7 +35,7 @@ namespace BAISTGolfClub.API.Controllers
             }
 
             var user = await _context.User
-                .Include(u => u.Membership)
+                //.Include(u => u.Membership)
                 .FirstOrDefaultAsync(m => m.UserId == id);
             if (user == null)
             {

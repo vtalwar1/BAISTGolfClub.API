@@ -11,7 +11,7 @@ namespace BAISTGolfClub.Data.Models
     {
         public StandingReservation()
         {
-            Reservations = new HashSet<Reservation>();
+            Reservation = new HashSet<Reservation>();
         }
 
         public Guid StandingReservationId { get; set; }
@@ -26,8 +26,8 @@ namespace BAISTGolfClub.Data.Models
         public DateTime? LastModifiedDateTime { get; set; }
         public long StandingReservationNumber { get; set; }
 
-        public virtual User ApprovedByUser { get; set; }
+        public virtual User ApprovedByNavigation { get; set; }
         public virtual User User { get; set; }
-        public virtual ICollection<Reservation> Reservations { get; set; }
+        public virtual ICollection<Reservation> Reservation { get; set; }
     }
 }

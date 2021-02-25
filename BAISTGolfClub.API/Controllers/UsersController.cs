@@ -1,4 +1,5 @@
 ﻿using BAISTGolfClub.API.Interfaces;
+using BAISTGolfClub.Data;
 using BAISTGolfClub.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -60,6 +61,31 @@ namespace BAISTGolfClub.API.Controllers
                 return user;
             }
             catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("GetUserByMembershipNumber/{membershipNumber}")]
+        public async Task<ActionResult<User>> GetUserByMembershipNumber(string membershipNumber)
+        {
+            try
+            {
+                if(int.TryParse(membershipNumber, out int membershipNumberint))
+                {
+                    var user = await this._userService.GetUserByMembershipNumber(membershipNumberint);
+                    if (user == null)
+                    {
+                        return NotFound("User does not exists.");
+                    }
+                    return user;
+                } else
+                {
+                    return NotFound("Invalid Membership Number.");
+                }
+                
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex);
             }

@@ -22,6 +22,7 @@ namespace BAISTGolfClub.Data.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public bool Active { get; set; }
+        public bool IsStaff { get; set; }
 
         public virtual Membership Membership { get; set; }
         public virtual ICollection<Reservation> Reservation { get; set; }

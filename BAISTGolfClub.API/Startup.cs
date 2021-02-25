@@ -1,5 +1,6 @@
 using BAISTGolfClub.API.Interfaces;
 using BAISTGolfClub.API.Services;
+using BAISTGolfClub.Data;
 using BAISTGolfClub.Data.DBContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +34,7 @@ namespace BAISTGolfClub.API
         options.UseSqlServer(Configuration.GetConnectionString("BAISTGolfClub_Dev")));
 
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IReservationService, ReservationService>();
 
             services.AddCors(options =>
             {
@@ -45,7 +47,8 @@ namespace BAISTGolfClub.API
                     .AllowCredentials().Build();
                 });
             });
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,5 +1,7 @@
-﻿using BAISTGolfClub.Data.Models;
+﻿using System;
+using BAISTGolfClub.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -27,7 +29,8 @@ namespace BAISTGolfClub.Data.DBContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=BAISTGolfClub_vtalwar1;Integrated Security=True");
             }
         }
 
@@ -42,7 +45,7 @@ namespace BAISTGolfClub.Data.DBContext
 
                 entity.Property(e => e.MembershipType)
                     .IsRequired()
-                    .HasMaxLength(1)
+                    .HasMaxLength(15)
                     .IsUnicode(false)
                     .IsFixedLength();
             });
@@ -73,7 +76,7 @@ namespace BAISTGolfClub.Data.DBContext
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.StandingReservation)
-                    .WithMany(p => p.Reservations)
+                    .WithMany(p => p.Reservation)
                     .HasForeignKey(d => d.StandingReservationId)
                     .HasConstraintName("FK_Reservation_StandingReservation");
 
@@ -108,7 +111,7 @@ namespace BAISTGolfClub.Data.DBContext
 
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
 
-                entity.HasOne(d => d.ApprovedByUser)
+                entity.HasOne(d => d.ApprovedByNavigation)
                     .WithMany(p => p.StandingReservationApprovedByNavigation)
                     .HasForeignKey(d => d.ApprovedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)

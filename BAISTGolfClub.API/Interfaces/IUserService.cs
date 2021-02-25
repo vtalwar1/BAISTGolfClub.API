@@ -10,5 +10,6 @@ namespace BAISTGolfClub.API.Interfaces
     {
         public Task<User> GetUserByEmail(string email);
         Task<User> GetUserById(Guid id);
+        Task<User> GetUserByMembershipNumber(int membershipNumberint);
     }
 }
