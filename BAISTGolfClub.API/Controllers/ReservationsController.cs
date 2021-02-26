@@ -38,7 +38,7 @@ namespace BAISTGolfClub.API.Controllers
                 return BadRequest(ex);
             }
         }
-
+   
         [HttpGet("GetAllReservationsByUserType/{userId}")]
         public async Task<ActionResult<List<Reservation>>> GetAllReservationsByUserType(Guid userId)
         {
@@ -46,6 +46,21 @@ namespace BAISTGolfClub.API.Controllers
             {
                 var reservations = await this._reservationService.GetAllReservationsByUserType(userId);
                
+                return reservations;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("GetReservationById/{reservationId}")]
+        public async Task<ActionResult<ReservationDTO>> GetReservationById(Guid reservationId)
+        {
+            try
+            {
+                var reservations = await this._reservationService.GetReservationById(reservationId);
+
                 return reservations;
             }
             catch (Exception ex)
@@ -74,8 +89,18 @@ namespace BAISTGolfClub.API.Controllers
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult<bool>> Put(Guid id, [FromBody] ReservationDTO reservationDTO)
         {
+            try
+            {
+                return await this._reservationService.UpdateReservation(id, reservationDTO);
+
+   
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         // DELETE api/<ValuesController>/5

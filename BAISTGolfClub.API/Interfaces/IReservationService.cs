@@ -1,5 +1,6 @@
 ﻿using BAISTGolfClub.Data.DTO;
 using BAISTGolfClub.Data.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace BAISTGolfClub.API.Interfaces
         Task<List<Reservation>> GetAllReservations(bool activeOnly);
         Task<bool> CreateReservation(ReservationDTO reservationData);
         Task<List<Reservation>> GetAllReservationsByUserType(Guid isStaff);
+        Task<ReservationDTO> GetReservationById(Guid reservationId);
+        Task<bool> UpdateReservation(Guid reservationId, ReservationDTO reservationDTO);
     }
 }

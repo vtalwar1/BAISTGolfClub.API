@@ -125,5 +125,64 @@ namespace BAISTGolfClub.API.Services
 
             return reservations;
         }
+
+        public async Task<ReservationDTO> GetReservationById(Guid reservationId)
+        {
+            var reservation = await _context.Reservation.Where(x=> x.ReservationId == reservationId)
+                                                        .Include(x=> x.StandingReservation)
+                                                        .Include(x => x.User)
+                                                        .ThenInclude(y => y.Membership).FirstOrDefaultAsync();
+            if(reservation != null)
+            {
+                ReservationDTO reservationDTO = new ReservationDTO()
+                {
+                    ReservationId = reservation.ReservationId,
+                    UserId = reservation.UserId,
+                    StartDate = ConvertToMountainTime(reservation.StartDate),
+                    EndDate = ConvertToMountainTime(reservation.EndDate),
+                    CreatedBy = reservation.CreatedBy,
+                    CreatedDateTime = ConvertToMountainTime(reservation.CreatedDateTime),
+                    LastModifiedBy = reservation.LastModifiedBy,
+                    LastModifiedDateTime = reservation.LastModifiedDateTime,
+                    Notes = reservation.Notes,
+                    NumberOfPlayers = reservation.NumberOfPlayers,
+                    StandingReservationId = reservation.StandingReservationId,
+                    ResevationNumber = reservation.ResevationNumber,
+                    ReservationType = reservation.StandingReservation == null ? "O" : "S",
+                    IsApproved = reservation.StandingReservation == null ? false : reservation.StandingReservation.IsApproved,
+                    User = reservation.User 
+                };
+
+                return reservationDTO;
+            } else
+            {
+                throw new Exception("Reservation not found");
+            }
+        }
+
+        public async Task<bool> UpdateReservation(Guid reservationId, ReservationDTO reservationDTO)
+        {
+            if(reservationId != reservationDTO.ReservationId)
+                throw new Exception("Invaild Reservation Id");
+
+            var existingReservation = await _context.Reservation.FindAsync(reservationId);
+
+            if(existingReservation == null)
+                throw new Exception("Reservation does not exists.");
+            else
+            {
+                existingReservation.StartDate = reservationDTO.StartDate;
+                existingReservation.EndDate = reservationDTO.EndDate;
+                existingReservation.NumberOfPlayers = reservationDTO.NumberOfPlayers;
+                existingReservation.Notes = reservationDTO.Notes;
+                existingReservation.LastModifiedBy = reservationDTO.LastModifiedBy;
+                existingReservation.LastModifiedDateTime = DateTime.UtcNow;
+
+                _context.Entry(existingReservation).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+        }
     }
 }

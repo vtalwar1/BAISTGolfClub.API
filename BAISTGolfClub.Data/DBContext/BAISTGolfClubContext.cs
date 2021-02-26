@@ -65,6 +65,7 @@ namespace BAISTGolfClub.Data.DBContext
                 entity.Property(e => e.Notes).IsUnicode(false);
 
                 entity.Property(e => e.ResevationNumber).ValueGeneratedOnAdd();
+                entity.Property(e => e.ResevationNumber).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
                 entity.HasOne(d => d.StandingReservation)
                     .WithMany(p => p.Reservation)
