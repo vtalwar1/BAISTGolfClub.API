@@ -1,4 +1,5 @@
 ﻿using BAISTGolfClub.API.Interfaces;
+using BAISTGolfClub.Data.DTO;
 using BAISTGolfClub.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -20,12 +21,12 @@ namespace BAISTGolfClub.API.Controllers
             this._reservationService = reservationService;
         }
         // GET: api/<ValuesController>
-        [HttpGet]
-        public async Task<ActionResult<List<Reservation>>> Get()
+        [HttpGet("{activeOnly}")]
+        public async Task<ActionResult<List<Reservation>>> Get(bool activeOnly)
         {
             try
             {
-                var reservations = await this._reservationService.GetAllReservations();
+                var reservations = await this._reservationService.GetAllReservations(activeOnly);
                 if (reservations == null)
                 {
                     return NotFound("User does not exists.");
@@ -38,18 +39,38 @@ namespace BAISTGolfClub.API.Controllers
             }
         }
 
-        // GET api/<ValuesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("GetAllReservationsByUserType/{userId}")]
+        public async Task<ActionResult<List<Reservation>>> GetAllReservationsByUserType(Guid userId)
         {
-            return "value";
+            try
+            {
+                var reservations = await this._reservationService.GetAllReservationsByUserType(userId);
+               
+                return reservations;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
+
 
         // POST api/<ValuesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<bool>> Post([FromBody] ReservationDTO reservationData)
         {
-        }
+            try
+            {
+                var reservations = await this._reservationService.CreateReservation(reservationData);
+
+                return reservations;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        
+    }
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]

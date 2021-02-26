@@ -20,8 +20,9 @@ namespace BAISTGolfClub.Data.DTO
         public string LastModifiedBy { get; set; }
         public DateTime? LastModifiedDateTime { get; set; }
         public bool IsApproved { get; set; }
-        public Guid ApprovedBy { get; set; }
+        public Guid? ApprovedBy { get; set; }
         public long StandingReservationNumber { get; set; }
+        public string ReservationType { get; set; }
         public virtual User User { get; set; }
     }
 }

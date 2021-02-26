@@ -14,13 +14,13 @@ namespace BAISTGolfClub.Data.Models
         public Guid? StandingReservationId { get; set; }
         public long ResevationNumber { get; set; }
         public int NumberOfPlayers { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset EndDate { get; set; }
         public string Notes { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime CreatedDateTime { get; set; }
+        public DateTimeOffset CreatedDateTime { get; set; }
         public string LastModifiedBy { get; set; }
-        public DateTime? LastModifiedDateTime { get; set; }
+        public DateTimeOffset? LastModifiedDateTime { get; set; }
 
         public virtual StandingReservation StandingReservation { get; set; }
         public virtual User User { get; set; }

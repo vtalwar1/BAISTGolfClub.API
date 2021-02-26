@@ -1,7 +1,7 @@
 ﻿using System;
-using BAISTGolfClub.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using BAISTGolfClub.Data.Models;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -45,9 +45,8 @@ namespace BAISTGolfClub.Data.DBContext
 
                 entity.Property(e => e.MembershipType)
                     .IsRequired()
-                    .HasMaxLength(15)
-                    .IsUnicode(false)
-                    .IsFixedLength();
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Reservation>(entity =>
@@ -59,21 +58,13 @@ namespace BAISTGolfClub.Data.DBContext
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.CreatedDateTime).HasColumnType("datetime");
-
-                entity.Property(e => e.EndDate).HasColumnType("datetime");
-
                 entity.Property(e => e.LastModifiedBy)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.LastModifiedDateTime).HasColumnType("datetime");
-
                 entity.Property(e => e.Notes).IsUnicode(false);
 
                 entity.Property(e => e.ResevationNumber).ValueGeneratedOnAdd();
-
-                entity.Property(e => e.StartDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.StandingReservation)
                     .WithMany(p => p.Reservation)
@@ -96,25 +87,16 @@ namespace BAISTGolfClub.Data.DBContext
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.CreatedDateTime).HasColumnType("datetime");
-
-                entity.Property(e => e.EndDate).HasColumnType("datetime");
-
                 entity.Property(e => e.LastModifiedBy)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.LastModifiedDateTime).HasColumnType("datetime");
-
                 entity.Property(e => e.StandingReservationNumber).ValueGeneratedOnAdd();
-
-                entity.Property(e => e.StartDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.ApprovedByNavigation)
                     .WithMany(p => p.StandingReservationApprovedByNavigation)
                     .HasForeignKey(d => d.ApprovedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_StandingReservation_User1");
 
                 entity.HasOne(d => d.User)

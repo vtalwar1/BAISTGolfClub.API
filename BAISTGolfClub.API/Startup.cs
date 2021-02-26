@@ -30,7 +30,7 @@ namespace BAISTGolfClub.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BAISTGolfClubContext>(options =>
+            services.AddDbContext<Data.DBContext.BAISTGolfClubContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString("BAISTGolfClub_Dev")));
 
             services.AddTransient<IUserService, UserService>();
