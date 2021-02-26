@@ -89,7 +89,6 @@ namespace BAISTGolfClub.Data.DBContext
                     .IsUnicode(false);
 
                 entity.Property(e => e.LastModifiedBy)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 

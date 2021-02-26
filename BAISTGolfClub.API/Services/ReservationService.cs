@@ -184,5 +184,28 @@ namespace BAISTGolfClub.API.Services
                 return true;
             }
         }
+
+        public async Task<List<StandingReservation>> GetAllStandingReservationsForApproval(bool activeOnly)
+        {
+            List<StandingReservation> standingReservations;
+            if (activeOnly)
+            {
+                standingReservations = await this._context.StandingReservation.Where(x => x.StartDate >= DateTime.UtcNow && x.IsApproved == false).Include(x => x.User).ThenInclude(y => y.Membership).ToListAsync(); 
+            }
+            else
+            {
+                standingReservations = await this._context.StandingReservation.Where(x => x.IsApproved == false).Include(x => x.User).ThenInclude(y => y.Membership).ToListAsync();
+            }
+
+
+            foreach (var standingReservation in standingReservations)
+            {
+                standingReservation.StartDate = ConvertToMountainTime(standingReservation.StartDate);
+                standingReservation.EndDate = ConvertToMountainTime(standingReservation.EndDate);
+                standingReservation.CreatedDateTime = ConvertToMountainTime(standingReservation.CreatedDateTime);
+            }
+
+            return standingReservations;
+        }
     }
 }

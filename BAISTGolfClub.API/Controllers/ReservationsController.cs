@@ -29,7 +29,7 @@ namespace BAISTGolfClub.API.Controllers
                 var reservations = await this._reservationService.GetAllReservations(activeOnly);
                 if (reservations == null)
                 {
-                    return NotFound("User does not exists.");
+                    return NotFound("Reservations does not exists.");
                 }
                 return reservations;
             }
@@ -38,7 +38,25 @@ namespace BAISTGolfClub.API.Controllers
                 return BadRequest(ex);
             }
         }
-   
+
+        [HttpGet("GetAllStandingReservationsForApproval/{activeOnly}")]
+        public async Task<ActionResult<List<StandingReservation>>> GetAllStandingReservationsForApproval(bool activeOnly)
+        {
+            try
+            {
+                var reservations = await this._reservationService.GetAllStandingReservationsForApproval(activeOnly);
+                if (reservations == null)
+                {
+                    return NotFound("Reservations does not exists.");
+                }
+                return reservations;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
         [HttpGet("GetAllReservationsByUserType/{userId}")]
         public async Task<ActionResult<List<Reservation>>> GetAllReservationsByUserType(Guid userId)
         {
