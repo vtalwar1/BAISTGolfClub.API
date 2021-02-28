@@ -63,7 +63,7 @@ namespace BAISTGolfClub.API.Controllers
             try
             {
                 var reservations = await this._reservationService.GetAllReservationsByUserType(userId);
-               
+
                 return reservations;
             }
             catch (Exception ex)
@@ -102,8 +102,24 @@ namespace BAISTGolfClub.API.Controllers
             {
                 return BadRequest(ex);
             }
-        
-    }
+
+        }
+
+        [HttpPost("ApproveStandingReservation")]
+        public async Task<ActionResult<bool>> ApproveStandingReservation([FromBody] StandingReservation reservationData)
+        {
+            try
+            {
+                var isApproved = await this._reservationService.ApproveStandingReservation(reservationData);
+
+                return isApproved;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+
+        }
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
@@ -113,7 +129,7 @@ namespace BAISTGolfClub.API.Controllers
             {
                 return await this._reservationService.UpdateReservation(id, reservationDTO);
 
-   
+
             }
             catch (Exception ex)
             {

@@ -16,5 +16,6 @@ namespace BAISTGolfClub.API.Interfaces
         Task<ReservationDTO> GetReservationById(Guid reservationId);
         Task<bool> UpdateReservation(Guid reservationId, ReservationDTO reservationDTO);
         Task<List<StandingReservation>> GetAllStandingReservationsForApproval(bool activeOnly);
+        Task<bool> ApproveStandingReservation(StandingReservation reservationData);
     }
 }

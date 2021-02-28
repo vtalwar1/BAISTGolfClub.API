@@ -190,11 +190,12 @@ namespace BAISTGolfClub.API.Services
             List<StandingReservation> standingReservations;
             if (activeOnly)
             {
-                standingReservations = await this._context.StandingReservation.Where(x => x.StartDate >= DateTime.UtcNow && x.IsApproved == false).Include(x => x.User).ThenInclude(y => y.Membership).ToListAsync(); 
+                standingReservations = await this._context.StandingReservation.Where(x => x.IsApproved == false && x.StartDate >= DateTime.UtcNow).Include(x => x.User).ThenInclude(y => y.Membership).ToListAsync();
+                
             }
             else
             {
-                standingReservations = await this._context.StandingReservation.Where(x => x.IsApproved == false).Include(x => x.User).ThenInclude(y => y.Membership).ToListAsync();
+                standingReservations = await this._context.StandingReservation.ToListAsync();
             }
 
 
@@ -206,6 +207,67 @@ namespace BAISTGolfClub.API.Services
             }
 
             return standingReservations;
+        }
+
+        public async Task<bool> ApproveStandingReservation(StandingReservation reservationData)
+        {
+            
+            var standingReservation = await _context.StandingReservation.Where(x => x.StandingReservationId == reservationData.StandingReservationId)
+                                                                        .Include(x => x.User)
+                                                                        .FirstOrDefaultAsync();
+            if (standingReservation == null)
+                throw new Exception("Standing reservation not found");
+
+            var approvedByUser = await _context.User.FindAsync(reservationData.ApprovedBy);
+            
+            if (approvedByUser == null)
+                throw new Exception("User not found");
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+
+
+                    List<DateTimeOffset> reservationStartDates = new List<DateTimeOffset>();
+
+                    reservationStartDates.Add(standingReservation.StartDate);
+                    reservationStartDates.Add(standingReservation.StartDate.AddDays(7));
+                    reservationStartDates.Add(standingReservation.StartDate.AddDays(14));
+                    reservationStartDates.Add(standingReservation.StartDate.AddDays(21));
+                    reservationStartDates.Add(standingReservation.EndDate);
+
+                    foreach (var reservationStartDate in reservationStartDates)
+                    {
+                        Reservation newReservation = new Reservation()
+                        {
+                            NumberOfPlayers = 1,
+                            Notes = null,
+                            CreatedBy = approvedByUser.Email,
+                            CreatedDateTime = DateTime.UtcNow,
+                            StartDate = reservationStartDate,
+                            EndDate = reservationStartDate.AddHours(2),
+                            UserId = standingReservation.UserId,
+                            StandingReservationId = standingReservation.StandingReservationId,
+                            ReservationId = Guid.NewGuid(),
+                        };
+
+                        await _context.Reservation.AddAsync(newReservation);
+                    }
+
+                    standingReservation.IsApproved = true;
+                    standingReservation.ApprovedBy = approvedByUser.UserId;
+                    _context.Entry(standingReservation).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+
+                    await transaction.CommitAsync();
+                    return true;
+                } 
+                catch(Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    throw ex;
+                }
+            }
         }
     }
 }
