@@ -9,6 +9,11 @@ namespace BAISTGolfClub.Data.Models
 {
     public partial class Reservation
     {
+        public Reservation()
+        {
+            Score = new HashSet<Score>();
+        }
+
         public Guid ReservationId { get; set; }
         public Guid UserId { get; set; }
         public Guid? StandingReservationId { get; set; }
@@ -24,5 +29,6 @@ namespace BAISTGolfClub.Data.Models
 
         public virtual StandingReservation StandingReservation { get; set; }
         public virtual User User { get; set; }
+        public virtual ICollection<Score> Score { get; set; }
     }
 }

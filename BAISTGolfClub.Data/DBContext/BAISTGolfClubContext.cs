@@ -22,6 +22,7 @@ namespace BAISTGolfClub.Data.DBContext
 
         public virtual DbSet<Membership> Membership { get; set; }
         public virtual DbSet<Reservation> Reservation { get; set; }
+        public virtual DbSet<Score> Score { get; set; }
         public virtual DbSet<StandingReservation> StandingReservation { get; set; }
         public virtual DbSet<User> User { get; set; }
 
@@ -77,6 +78,28 @@ namespace BAISTGolfClub.Data.DBContext
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Reservation_User");
+            });
+
+            modelBuilder.Entity<Score>(entity =>
+            {
+                entity.Property(e => e.ScoreId).ValueGeneratedNever();
+
+                entity.Property(e => e.Handicap)
+                    .HasColumnType("numeric(29, 6)")
+                    .HasComputedColumnSql("((([TotalScore]-(70.6))/(128))*(113))");
+
+                entity.Property(e => e.TotalScore).HasColumnType("decimal(18, 0)");
+
+                entity.HasOne(d => d.Reservation)
+                    .WithMany(p => p.Score)
+                    .HasForeignKey(d => d.ReservationId)
+                    .HasConstraintName("FK_Score_Reservation");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Score)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Score_User");
             });
 
             modelBuilder.Entity<StandingReservation>(entity =>
@@ -139,3 +162,4 @@ namespace BAISTGolfClub.Data.DBContext
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
+

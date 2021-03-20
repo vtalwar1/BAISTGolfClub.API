@@ -269,5 +269,10 @@ namespace BAISTGolfClub.API.Services
                 }
             }
         }
+
+        public async Task<Reservation> GetReservationByReservationNumber(long reservationNumber, long membershipNumberNumber)
+        {
+            return await this._context.Reservation.Where(x => x.ResevationNumber == reservationNumber && x.User.MembershipNumber == membershipNumberNumber).Include(x => x.Score).FirstOrDefaultAsync();
+        }
     }
 }

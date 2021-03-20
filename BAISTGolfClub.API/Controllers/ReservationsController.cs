@@ -57,6 +57,21 @@ namespace BAISTGolfClub.API.Controllers
             }
         }
 
+        [HttpGet("GetReservationByReservationNumber/{reservationNumber}/{membershipNumberNumber}")]
+        public async Task<ActionResult<Reservation>> GetReservationByReservationNumber(long reservationNumber, long membershipNumberNumber)
+        {
+            try
+            {
+                Reservation reservation = await this._reservationService.GetReservationByReservationNumber(reservationNumber, membershipNumberNumber);
+       
+                return reservation;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
         [HttpGet("GetAllReservationsByUserType/{userId}")]
         public async Task<ActionResult<List<Reservation>>> GetAllReservationsByUserType(Guid userId)
         {

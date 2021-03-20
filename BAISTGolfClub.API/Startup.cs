@@ -35,6 +35,7 @@ namespace BAISTGolfClub.API
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IReservationService, ReservationService>();
+            services.AddTransient<IScoreService, ScoreService>();
 
             services.AddCors(options =>
             {
