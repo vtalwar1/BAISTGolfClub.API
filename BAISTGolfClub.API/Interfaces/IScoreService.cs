@@ -9,5 +9,6 @@ namespace BAISTGolfClub.API.Interfaces
     public interface IScoreService
     {
         Task<bool> SubmitScore(Score scoreData);
+        Task<List<Score>> GetAllScoresByUserType(Guid userId);
     }
 }

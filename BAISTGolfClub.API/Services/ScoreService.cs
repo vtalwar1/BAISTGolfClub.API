@@ -38,11 +38,43 @@ namespace BAISTGolfClub.API.Services
 
                 await _context.Score.AddAsync(score);
                 await _context.SaveChangesAsync();
-                return false;
+                return true;
             } catch (Exception ex)
             {
                 return false;
             }
+        }
+
+        public async Task<List<Score>> GetAllScoresByUserType(Guid userId)
+        {
+            var user = await _context.User.FindAsync(userId);
+            if (user == null)
+            {
+                throw new Exception("User does not exists");
+            }
+            List<Score> scores;
+            if (user.IsStaff)
+            {
+                scores = await this._context.Score.Include(x => x.Reservation).Include(x => x.User).ThenInclude(y => y.Membership).ToListAsync();
+            }
+            else
+            {
+                scores = await this._context.Score.Where(x => x.UserId == userId).Include(x => x.Reservation).Include(x => x.User).ThenInclude(y => y.Membership).ToListAsync();
+            }
+
+
+            foreach (var score in scores)
+            {
+                score.Date = ConvertToMountainTime(score.Date);
+            }
+
+            return scores;
+        }
+
+        private DateTimeOffset ConvertToMountainTime(DateTimeOffset utc)
+        {
+            return TimeZoneInfo.ConvertTimeBySystemTimeZoneId
+                (utc, "Mountain Standard Time");
         }
     }
 }

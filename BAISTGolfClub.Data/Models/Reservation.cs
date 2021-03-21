@@ -26,6 +26,7 @@ namespace BAISTGolfClub.Data.Models
         public DateTimeOffset CreatedDateTime { get; set; }
         public string LastModifiedBy { get; set; }
         public DateTimeOffset? LastModifiedDateTime { get; set; }
+        public bool CartRequired { get; set; }
 
         public virtual StandingReservation StandingReservation { get; set; }
         public virtual User User { get; set; }

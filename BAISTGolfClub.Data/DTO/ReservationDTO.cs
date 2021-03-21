@@ -24,5 +24,6 @@ namespace BAISTGolfClub.Data.DTO
         public long StandingReservationNumber { get; set; }
         public string ReservationType { get; set; }
         public virtual User User { get; set; }
+        public bool CartRequired { get; set; }
     }
 }

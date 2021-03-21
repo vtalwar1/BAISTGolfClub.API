@@ -34,6 +34,21 @@ namespace BAISTGolfClub.API.Controllers
 
         }
 
+        [HttpGet("GetAllScoresByUserType/{userId}")]
+        public async Task<ActionResult<List<Score>>> GetAllScoresByUserType(Guid userId)
+        {
+            try
+            {
+                var scores = await this._scoreService.GetAllScoresByUserType(userId);
+
+                return scores;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
 
     }
 }
