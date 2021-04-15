@@ -22,7 +22,7 @@ namespace BAISTGolfClub.API.Services
             try
             {
                 Reservation reservation = null;
-                if (scoreData.Reservation.ResevationNumber != 0)
+                if (scoreData.Reservation!=null && scoreData.Reservation?.ResevationNumber != 0)
                 {
                     reservation = await _context.Reservation.Where(x => x.ResevationNumber == long.Parse(scoreData.Reservation.ResevationNumber.ToString())).FirstOrDefaultAsync();
                 }
